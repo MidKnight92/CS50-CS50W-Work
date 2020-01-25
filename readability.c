@@ -2,6 +2,7 @@
 #include <cs50.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 
 
 
@@ -17,7 +18,8 @@ int main(void)
 {
 
     prompt();
-    int index = 0.0588 * L - 0.296 * S - 15.8;
+    float real_num = 0.0588 * L - 0.296 * S - 15.8;
+    int index = roundf(real_num);
 
     if (index >= 16)
     {
@@ -33,7 +35,7 @@ int main(void)
     }
 }
 
-//Prompt user for a string of text
+//prompt user for a string of text
 string prompt(void)
 {
     string text;
@@ -47,7 +49,7 @@ string prompt(void)
 }
 
 
-// Find the number of letters, words, and sentences in the text
+
 int count_args(string text)
 {
 
@@ -61,24 +63,23 @@ int count_args(string text)
 
    for (int i = 0, n = strlen(text); i < n; i++)
    {
-       // If an upper of lowercase letter is detected increment letters
        if (islower(text[i]) || isupper(text[i]))
        {
            letters++;
        }
 
-       // If a space is detected increment words and add one for the last word
        if (isspace(text[i]))
        {
            words++;
        }
 
-       // If '.', '?', or '!' is detected increment sentences
        if (text[i] == p || text[i] == q || text[i] == e)
        {
+            // printf("This is text[i]:%c p:%c q:%c e:%c\n", text[i], p, q, e);
            sentences++;
        }
    }
+//   printf("This the letters, words, sentence count: %i %i %i\n", letters, words, sentences);
 
    avg_ltrs( letters, words);
    avg_sent(sentences, words);
@@ -86,17 +87,16 @@ int count_args(string text)
    return 0;
 }
 
-
+// TODO
 // avg number of letters per 100 words in the text
 int avg_ltrs(int letter, int words)
 {
     float l = 0;
 
-    if (words < 100)
-    {
-        l = (letter * 100) / words;
-    }
 
+    l = (letter * 100.0) / words;
+
+    // printf("L:%.1f\n", l);
     L = l;
     return 0;
 }
@@ -106,11 +106,10 @@ int avg_sent(int sentences, int words)
 {
     float s = 0;
 
-    if (words < 100)
-    {
-        s = (sentences * 100) / words;
-    }
 
+    s = (sentences * 100.0) / words;
+
+    // printf("S: %.1f\n", s);
     S = s;
     return 0;
 }
