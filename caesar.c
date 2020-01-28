@@ -15,7 +15,7 @@ int enicpher(void);
 int main(int argc, string argv[])
 {
     // Throws Error if there is not an arg provided or more than two
-    if (argc != 2 || argc > 2 )
+    if (argc != 2)
     {
         printf("Usage: ./casesar key\n");
         return 1;
@@ -49,33 +49,18 @@ int prompt(void)
     for (int i = 0, n = strlen(text); i < n; i++)
     {
         cipher_digits = (text[i] + key);
-        if (isdigit(text[i]) || ispunct(text[i]))
+        if (islower(text[i]))
         {
-            printf("%c", text[i]);
+        printf("%c", (cipher_digits - 'a') % 26 + 'a');
         }
         else if (isupper(text[i]))
         {
-            if (cipher_digits > 90 || cipher_digits < 65)
-            {
-                printf("%c", ((cipher_digits -  65) % 26) + 65);
-            }
-            else
-            {
-                printf("%c", cipher_digits);
-            }
+        printf("%c", (cipher_digits - 'A') % 26 + 'A');
         }
         else
         {
-            if (cipher_digits > 122 || cipher_digits < 97)
-            {
-                printf("%c", ((cipher_digits - 97) % 26) + 97);
-            }
-            else
-            {
-                printf("%c", cipher_digits);
-            }
+        printf("%c", text[i]);
         }
-
     }
     printf("\n");
     return 0;
