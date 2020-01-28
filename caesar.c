@@ -42,7 +42,7 @@ int main(int argc, string argv[])
 // Prompt user for plain text input and ouput cipher
 int prompt(void)
 {
-    char cipher_digits;
+    int cipher_digits;
     string text = get_string("plaintext: ");
     printf("ciphertext: ");
     // Loops over the plaintext and output cipher text
