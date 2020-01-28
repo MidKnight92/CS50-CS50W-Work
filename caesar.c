@@ -10,7 +10,7 @@ int prompt(void);
 int enicpher(void);
 
 
-// Takes User Command Line Arguments as Key if criteria is meet
+// Takes User Command Line Arguments as Key if criteria are met
 int main(int argc, string argv[])
 {
     // Throws Error if there is not an arg provided or more than two
@@ -31,11 +31,11 @@ int main(int argc, string argv[])
                 return 1;
             }
         }
-         // Convert digit to an int
-            key = atoi(argv[1]);
-            printf("Success\n%i\n", key);
-            prompt();
-            return 0;
+        // Convert digit to an int
+        key = atoi(argv[1]);
+        printf("Success\n%i\n", key);
+        prompt();
+        return 0;
     }
 }
 
@@ -45,20 +45,21 @@ int prompt(void)
     char cipher_digits;
     string text = get_string("plaintext: ");
     printf("ciphertext: ");
+    // Loops over the plaintext and output cipher text
     for (int i = 0, n = strlen(text); i < n; i++)
     {
         cipher_digits = (text[i] + key);
         if (islower(text[i]))
         {
-        printf("%c", ((cipher_digits - 'a') % 26) + 'a');
+            printf("%c", ((cipher_digits - 'a') % 26 + 'a');
         }
         else if (isupper(text[i]))
         {
-        printf("%c", ((cipher_digits - 'A') % 26) + 'A');
+            printf("%c", ((cipher_digits - 'A') % 26 + 'A');
         }
         else
         {
-        printf("%c", text[i]);
+            printf("%c", text[i]);
         }
     }
     printf("\n");
