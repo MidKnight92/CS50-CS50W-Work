@@ -44,8 +44,8 @@ int main(int argc, string argv[])
 int prompt(void)
 {
     char cipher_digits;
-    string text = get_string("plaintext: ");
-    printf("ciphertext: ");
+    string text = get_string("plaintext:");
+    printf("ciphertext:");
     for (int i = 0, n = strlen(text); i < n; i++)
     {
         cipher_digits = (text[i] + key);
