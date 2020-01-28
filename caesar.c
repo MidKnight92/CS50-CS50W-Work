@@ -55,7 +55,7 @@ int prompt(void)
         }
         else if (isupper(text[i]))
         {
-            if (cipher_digits > 90)
+            if (cipher_digits > 90 || cipher_digits < 65)
             {
                 printf("%c", ((cipher_digits -  65) % 26) + 65);
             }
@@ -66,7 +66,7 @@ int prompt(void)
         }
         else
         {
-            if (cipher_digits > 122)
+            if (cipher_digits > 122 || cipher_digits < 97)
             {
                 printf("%c", ((cipher_digits - 97) % 26) + 97);
             }
