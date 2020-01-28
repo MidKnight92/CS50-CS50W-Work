@@ -8,8 +8,7 @@
 int key;
 int prompt(void);
 int enicpher(void);
-// int upper[];
-// int lower[];
+
 
 // Takes User Command Line Arguments as Key if criteria is meet
 int main(int argc, string argv[])
@@ -44,18 +43,18 @@ int main(int argc, string argv[])
 int prompt(void)
 {
     char cipher_digits;
-    string text = get_string("plaintext:");
-    printf("ciphertext:");
+    string text = get_string("plaintext: ");
+    printf("ciphertext: ");
     for (int i = 0, n = strlen(text); i < n; i++)
     {
         cipher_digits = (text[i] + key);
         if (islower(text[i]))
         {
-        printf("%c", (cipher_digits - 'a') % 26 + 'a');
+        printf("%c", ((cipher_digits - 'a') % 26) + 'a');
         }
         else if (isupper(text[i]))
         {
-        printf("%c", (cipher_digits - 'A') % 26 + 'A');
+        printf("%c", ((cipher_digits - 'A') % 26) + 'A');
         }
         else
         {
