@@ -51,11 +51,11 @@ int prompt(void)
         cipher_digits = (text[i] + key);
         if (islower(text[i]))
         {
-            printf("%c", ((cipher_digits - 'a') % 26 + 'a');
+            printf("%c", ((cipher_digits - 'a') % 26) + 'a');
         }
         else if (isupper(text[i]))
         {
-            printf("%c", ((cipher_digits - 'A') % 26 + 'A');
+            printf("%c", ((cipher_digits - 'A') % 26) + 'A');
         }
         else
         {
