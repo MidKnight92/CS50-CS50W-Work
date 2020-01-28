@@ -15,7 +15,7 @@ int enicpher(void);
 int main(int argc, string argv[])
 {
     // Throws Error if there is not an arg provided or more than two
-    if (argc != 2 || argc > 2)
+    if (argc != 2 || argc > 2 )
     {
         printf("Usage: ./casesar key\n");
         return 1;
@@ -31,15 +31,12 @@ int main(int argc, string argv[])
                 printf("Usage: ./casesar key\n");
                 return 1;
             }
-            else
-            {
-                // Convert digit to an int
-                key = atoi(&argv[1][i]);
-                printf("Success\n%i\n", key);
-                prompt();
-                return 0;
-            }
         }
+         // Convert digit to an int
+            key = atoi(argv[1]);
+            printf("Success\n%i\n", key);
+            prompt();
+            return 0;
     }
 }
 
