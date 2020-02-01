@@ -68,10 +68,10 @@ bool vote(string name)
 {
 
     // If name matches candidates
-        // Candidate vote plus 1
-        // Return true
+    // Candidate vote plus 1
+    // Return true
     // Otherwise, name !match candidates
-        // Return false
+    // Return false
     bool valid;
     for (int i = 0; i < candidate_count; i++)
     {
@@ -86,7 +86,7 @@ bool vote(string name)
 
             valid = false;
         }
-    //   printf("Candidates: %s\n Vote Count: %i\n",candidates[i].name, candidates[i].votes);
+        //printf("Candidates: %s\n Vote Count: %i\n",candidates[i].name, candidates[i].votes);
     }
 
     return valid;
