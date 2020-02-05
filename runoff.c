@@ -179,19 +179,16 @@ bool print_winner(void)
 // Return the minimum number of votes any remaining candidate has
 int find_min(void)
 {
-    int min = 0;
+    int min = 1;
     for (int i = 0; i < candidate_count; i++)
     {
-        if (!candidates[i].eliminated && candidates[i].votes == min)
+        if (!candidates[i].eliminated)
         {
-            // printf("%d\n", min);
-            // printf("This is candidate%s:%d\n", candidates[i].name, candidates[i].votes);
-            return min;
-        }
-        else
-        {
-             min++;
-        }
+            if (min >= candidates[i].votes)
+            {
+                min = candidates[i].votes;
+                return min;
+            }
     }
     return 0;
 }
