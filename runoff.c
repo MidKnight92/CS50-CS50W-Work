@@ -128,14 +128,14 @@ int main(int argc, string argv[])
 // Record preference if vote is valid
 bool vote(int voter, int rank, string name)
 {
-    // printf("This is voter:%d\n This is rank:%d\n", voter, rank);
+    // Loop through Candidates
     for (int i = 0; i < candidate_count; i++)
     {
-        // printf("this is candidates[%d]: %s\n", i, candidates[i].name);
+        // Match Candidates name with name argument
         if (strcmp(name, candidates[i].name) == 0)
         {
+            // Add voters index to the voter preferences
             preferences[voter][rank] = i;
-            // printf("preferences: %d\n", preferences[voter][rank]);
             return true;
         }
     }
@@ -145,14 +145,16 @@ bool vote(int voter, int rank, string name)
 // Tabulate votes for non-eliminated candidates
 void tabulate(void)
 {
+    // Loop Through preferences arr
     for (int i = 0; i < voter_count; i++)
     {
         for (int j = 0; j < candidate_count; j++)
         {
+            // Check if the candidate has been not been eliminated
             if (!candidates[preferences[i][j]].eliminated)
             {
+                // Increment candidate vote
                 candidates[preferences[i][j]].votes++;
-                // printf("candidate %s: %d\n", candidates[preferences[i][j]].name, candidates[preferences[i][j]].votes);
                 break;
             }
         }
@@ -164,9 +166,10 @@ void tabulate(void)
 bool print_winner(void)
 {
     int majority = (voter_count * .5) + 1;
-    // printf("%d", majority);
+    // Loop through candidate count
     for (int i = 0; i < candidate_count; i++)
     {
+        // Check if any candidate has more then 50% of the vote
         if (candidates[i].votes >= majority)
         {
             printf("%s\n", candidates[i].name);
@@ -179,10 +182,12 @@ bool print_winner(void)
 // Return the minimum number of votes any remaining candidate has
 int find_min(void)
 {
+    // Initalize min to be the majority vote (max possible number)
     int min = (voter_count * .5) + 1;
-
+    // Loop through candidate arr
     for (int i = 0; i < candidate_count; i++)
     {
+        // Check that candidate is not eliminated and if there votes are less then min
         if (!candidates[i].eliminated && candidates[i].votes < min)
         {
             min = candidates[i].votes;
@@ -194,8 +199,10 @@ int find_min(void)
 // Return true if the election is tied between all candidates, false otherwise
 bool is_tie(int min)
 {
+    // Loop through Candidate arr
     for (int i = 0; i < candidate_count; i++)
     {
+        // Check candidate is not eliminated then check to see if they have more then the min amount of votes
         if (!candidates[i].eliminated && candidates[i].votes != min)
         {
             return false;
@@ -207,11 +214,13 @@ bool is_tie(int min)
 // Eliminate the candidate (or candidiates) in last place
 void eliminate(int min)
 {
+    // Loop through the candidate arr
     for (int i = 0; i < candidate_count; i++)
     {
+        // Check candidate is not eliminated and vote is equal to min vote
         if (!candidates[i].eliminated && candidates[i].votes == min)
         {
-            printf("%s you are the weakest link good bye", candidates[i].name);
+            // Change candidate eliminated status to true
             candidates[i].eliminated = true;
         }
     }
