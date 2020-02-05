@@ -147,15 +147,15 @@ void tabulate(void)
 {
     for (int i = 0; i < voter_count; i++)
     {
-       for (int j = 0; j < candidate_count; j++)
-       {
-          if (!candidates[preferences[i][j]].eliminated)
-          {
+        for (int j = 0; j < candidate_count; j++)
+        {
+            if (!candidates[preferences[i][j]].eliminated)
+            {
                 candidates[preferences[i][j]].votes++;
                 // printf("candidate %s: %d\n", candidates[preferences[i][j]].name, candidates[preferences[i][j]].votes);
                 break;
-          }
-       }
+            }
+        }
     }
     return;
 }
@@ -185,7 +185,7 @@ int find_min(void)
     {
         if (!candidates[i].eliminated && candidates[i].votes < min)
         {
-                min = candidates[i].votes;
+            min = candidates[i].votes;
         }
     }
     return min;
