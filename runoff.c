@@ -184,7 +184,6 @@ int find_min(void)
     {
         if (!candidates[i].eliminated && candidates[i].votes <= min)
         {
-            min = candidates[i].votes;
             // printf("%d\n", min);
             // printf("This is candidate%s:%d\n", candidates[i].name, candidates[i].votes);
             return min;
