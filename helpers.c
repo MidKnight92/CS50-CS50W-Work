@@ -58,6 +58,7 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
 // Reflect image horizontally
 void reflect(int height, int width, RGBTRIPLE image[height][width])
 {
+    // Cretae a temp struct
     RGBTRIPLE temp;
     // Loop through the full height of the image
     for (int i = 0; i < height; i++)
@@ -67,7 +68,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
         {
             // Assign original pixel in a temp var
             temp = image[i][j];
-            // Assign the pixels on left to the pixels displayed at the end of array
+            // Assign the pixels on left to the end of array going one more into the middle with each iteration
             image[i][j] = image[i][width - j - 1];
             // Assign the pixels on the right to the original pixel images
             image[i][width - j - 1] = temp;
@@ -83,49 +84,50 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     int b = 0;
     int g = 0;
     int r = 0;
-    float counter = 0.00;
+    int counter = 0;
     RGBTRIPLE temp[height][width];
+    int currentColPixel, currentRowPixel;
 
     // Loop through image
-    for (int i = 0; i < width; i++)
+    for (int i = 0; i < height; i++)
     {
-        for (int j = 0; j < height; j++)
+        for (int j = 0; j < width; j++)
         {
-            // Loop from place to the left to one place to the right to get to the sum
-            for (int k = -1; k < 2; k++)
+            // Loops elements the position of -1, 0, 1 in a row
+            for (int row = -1; row < 2; row++)
             {
-                if (j + k < 0 || j + k > height - 1)
+                // Loops elements from the position on -1, 0, 1 in a column
+                for (int col = -1; col < 2; col++)
                 {
-                    continue;
-                }
+                    currentRowPixel = i + row;
+                    currentColPixel = j + col;
 
-                for (int h = -1; h < 2; h++)
-                {
-                    if (i + h < 0 || i + h > width - 1)
+                    // Check Elements are within the image range
+                    if (currentColPixel >= 0 && currentColPixel < height - 1 && currentRowPixel >= 0 && currentRowPixel < width - 1)
                     {
-                        continue;
+                        r += image[currentRowPixel][currentColPixel].rgbtRed;
+                        g += image[currentRowPixel][currentColPixel].rgbtGreen;
+                        b += image[currentRowPixel][currentColPixel].rgbtBlue;
+                        counter++;
                     }
-                    b += image[j + k][i + h].rgbtBlue;
-                    g += image[j + k][i + h].rgbtGreen;
-                    r += image[j + k][i + h].rgbtRed;
-                    counter++;
                 }
             }
+
             // Assign the rounded averages
-            temp[j][i].rgbtBlue = round(b / counter);
-            temp[j][i].rgbtGreen = round(g / counter);
-            temp[j][i].rgbtRed = round(r / counter);
+            temp[i][j].rgbtRed = round(r / counter);
+            temp[i][j].rgbtGreen = round(g / counter);
+            temp[i][j].rgbtBlue = round(b / counter);
         }
     }
     // Loop through image
-    for (int i = 0; i < width; i++)
+    for (int i = 0; i < height; i++)
     {
-        for (int j = 0; j < height; j++)
+        for (int j = 0; j < width; j++)
         {
             // Assign temp values to the image
-            image[j][i].rgbtBlue = temp[j][i].rgbtBlue;
-            image[j][i].rgbtGreen = temp[j][i].rgbtGreen;
-            image[j][i].rgbtRed = temp[j][i].rgbtRed;
+            image[i][j].rgbtBlue = temp[i][j].rgbtBlue;
+            image[i][j].rgbtGreen = temp[i][j].rgbtGreen;
+            image[i][j].rgbtRed = temp[i][j].rgbtRed;
         }
     }
     return;
