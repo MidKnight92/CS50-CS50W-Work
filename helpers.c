@@ -68,9 +68,9 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
             // Assign original pixel in a temp var
             temp = image[i][j];
             // Assign the pixels on left to the pixels displayed at the end of array
-            image[i][j] = image[i][width - j];
+            image[i][j] = image[i][width - j - 1];
             // Assign the pixels on the right to the original pixel images
-            image[i][width - j] = temp;
+            image[i][width - j - 1] = temp;
         }
     }
     return;
