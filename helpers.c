@@ -81,18 +81,21 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     // Declare varibales
-    int b = 0;
-    int g = 0;
-    int r = 0;
-    int counter = 0;
+    int b, g, r, currentColPixel, currentRowPixel;
+    float counter;
     RGBTRIPLE temp[height][width];
-    int currentColPixel, currentRowPixel;
 
     // Loop through image
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
+        // Assign varibales
+        b = 0;
+        g = 0;
+        r = 0;
+        counter = 0.00;
+
             // Loops elements the position of -1, 0, 1 in a row
             for (int row = -1; row < 2; row++)
             {
@@ -124,7 +127,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
-            // Assign temp values to the image
+            // Assign temp values with new blur averages to the original image
             image[i][j].rgbtBlue = temp[i][j].rgbtBlue;
             image[i][j].rgbtGreen = temp[i][j].rgbtGreen;
             image[i][j].rgbtRed = temp[i][j].rgbtRed;
