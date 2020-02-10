@@ -5,13 +5,14 @@
 // Convert image to grayscale
 void grayscale(int height, int width, RGBTRIPLE image[height][width])
 {
+    float gray;
     // Loop through image 2d array
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
             // Find the average of rgb in indiviual pixel round to the nearest Interger
-            float gray = round((image[i][j].rgbtRed + image[i][j].rgbtBlue + image[i][j].rgbtGreen) / 3);
+            gray = round((image[i][j].rgbtRed + image[i][j].rgbtBlue + image[i][j].rgbtGreen) / 3.00);
             // Set all the structs to gray
             image[i][j].rgbtRed = gray;
             image[i][j].rgbtBlue = gray;
