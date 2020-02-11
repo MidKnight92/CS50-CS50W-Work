@@ -81,9 +81,8 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
 void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     // Declare varibales
-    float b, g, r;
-    int currentColPixel, currentRowPixel;
-    float counter;
+    int currentColPixel, currentRowPixel, counter;
+    double b, g, r;
     RGBTRIPLE temp[height][width];
 
     // Loop through image
@@ -92,10 +91,8 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
         for (int j = 0; j < width; j++)
         {
         // Assign varibales
-        b = 0.00;
-        g = 0.00;
-        r = 0.00;
-        counter = 0.00;
+         currentColPixel = 0; currentRowPixel = 0; counter = 0;
+         b = 0.00;  g = 0.00; r = 0.00;
 
             // Loops elements the position of -1, 0, 1 in a row
             for (int row = -1; row < 2; row++)
@@ -107,7 +104,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                     currentColPixel = j + col;
 
                     // Check Elements are within the image range
-                    if (currentColPixel >= 0 && currentColPixel < (width - 1) && currentRowPixel >= 0 && currentRowPixel < (height - 1))
+                    if ((currentColPixel >= 0) && (currentColPixel < width - 1) && (currentRowPixel >= 0) && (currentRowPixel < height - 1))
                     {
                         r += image[currentRowPixel][currentColPixel].rgbtRed;
                         g += image[currentRowPixel][currentColPixel].rgbtGreen;
