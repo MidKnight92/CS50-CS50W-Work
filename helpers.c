@@ -82,7 +82,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
 {
     // Declare varibales
     int currentColPixel, currentRowPixel, counter;
-    double b, g, r;
+    float b, g, r;
     RGBTRIPLE temp[height][width];
 
     // Loop through image
@@ -104,7 +104,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                     currentColPixel = j + col;
 
                     // Check Elements are within the image range
-                    if ((currentColPixel >= 0) && (currentColPixel < width - 1) && (currentRowPixel >= 0) && (currentRowPixel < height - 1))
+                    if ((currentColPixel >= 0) && (currentColPixel <= width - 1) && (currentRowPixel >= 0) && (currentRowPixel <= height - 1))
                     {
                         r += image[currentRowPixel][currentColPixel].rgbtRed;
                         g += image[currentRowPixel][currentColPixel].rgbtGreen;
