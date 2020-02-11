@@ -35,21 +35,20 @@ void sepia(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
-        // Define all indiviual orgininal rbg colors
-        originalRed = image[i][j].rgbtRed;
-        originalBlue = image[i][j].rgbtBlue;
-        originalGreen = image[i][j].rgbtGreen;
+            // Define all indiviual orgininal rbg colors
+            originalRed = image[i][j].rgbtRed;
+            originalBlue = image[i][j].rgbtBlue;
+            originalGreen = image[i][j].rgbtGreen;
 
-        // Define all individual sepia rgb colors
-        sepiaRed = round(.393 * originalRed + .769 * originalGreen + .189 * originalBlue);
-        sepiaBlue = round(.272 * originalRed + .534 * originalGreen + .131 * originalBlue);
-        sepiaGreen = round(.349 * originalRed + .686 * originalGreen + .168 * originalBlue);
+            // Define all individual sepia rgb colors
+            sepiaRed = round(.393 * originalRed + .769 * originalGreen + .189 * originalBlue);
+            sepiaBlue = round(.272 * originalRed + .534 * originalGreen + .131 * originalBlue);
+            sepiaGreen = round(.349 * originalRed + .686 * originalGreen + .168 * originalBlue);
 
-        // Check if sepia color is more then max if so assin 2darr color to max else to the sepia value
-        image[i][j].rgbtRed = (sepiaRed > max) ? max : sepiaRed;
-        image[i][j].rgbtBlue = (sepiaBlue > max) ? max : sepiaBlue;
-        image[i][j].rgbtGreen = (sepiaGreen > max) ? max : sepiaGreen;
-
+            // Check if sepia color is more then max if so assin 2darr color to max else to the sepia value
+            image[i][j].rgbtRed = (sepiaRed > max) ? max : sepiaRed;
+            image[i][j].rgbtBlue = (sepiaBlue > max) ? max : sepiaBlue;
+            image[i][j].rgbtGreen = (sepiaGreen > max) ? max : sepiaGreen;
         }
     }
     return;
@@ -64,7 +63,7 @@ void reflect(int height, int width, RGBTRIPLE image[height][width])
     for (int i = 0; i < height; i++)
     {
         // Loop up to the mid-point in the row
-        for (int j = 0; j < (width/2); j++)
+        for (int j = 0; j < (width / 2); j++)
         {
             // Assign original pixel in a temp var
             temp = image[i][j];
@@ -83,6 +82,8 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     // Declare varibales
     int currentColPixel, currentRowPixel, counter;
     float b, g, r;
+
+    // Declare a temp struct
     RGBTRIPLE temp[height][width];
 
     // Loop through image
@@ -90,9 +91,13 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
-        // Assign varibales
-         currentColPixel = 0; currentRowPixel = 0; counter = 0;
-         b = 0.00;  g = 0.00; r = 0.00;
+            // Assign varibales
+            currentColPixel = 0;
+            currentRowPixel = 0;
+            counter = 0;
+            b = 0.00;
+            g = 0.00;
+            r = 0.00;
 
             // Loops elements the position of -1, 0, 1 in a row
             for (int row = -1; row < 2; row++)
@@ -103,7 +108,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                     currentRowPixel = i + row;
                     currentColPixel = j + col;
 
-                    // Check Elements are within the image range
+                    // Check Elements are only within the image range
                     if ((currentColPixel >= 0) && (currentColPixel <= width - 1) && (currentRowPixel >= 0) && (currentRowPixel <= height - 1))
                     {
                         r += image[currentRowPixel][currentColPixel].rgbtRed;
@@ -114,7 +119,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
                 }
             }
 
-            // Assign the rounded averages
+            // Assign the rounded averages to temp structs
             temp[i][j].rgbtRed = round(r / counter);
             temp[i][j].rgbtGreen = round(g / counter);
             temp[i][j].rgbtBlue = round(b / counter);
@@ -125,7 +130,7 @@ void blur(int height, int width, RGBTRIPLE image[height][width])
     {
         for (int j = 0; j < width; j++)
         {
-            // Assign temp values with new blur averages to the original image
+            // Assign temp values with new blur averages to the original image arr
             image[i][j].rgbtBlue = temp[i][j].rgbtBlue;
             image[i][j].rgbtGreen = temp[i][j].rgbtGreen;
             image[i][j].rgbtRed = temp[i][j].rgbtRed;
