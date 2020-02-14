@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
                 // Rename file
                 sprintf(filename, "%03i.jpg", i);
 
-                 // Open filename to write
+                // Open filename to write
                 img = fopen(filename, "w");
 
                 if (img == NULL)
