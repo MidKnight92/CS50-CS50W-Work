@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 
 
     // Repeat until End of Memory Card
-    while (fread(bytes, 4, 1, file) == 1)
+    while (fread(bytes, 512, 1, file) == 1)
     {
 
         // Check First Four Bytes
@@ -48,8 +48,6 @@ int main(int argc, char *argv[])
             if (i > 0)
             {
 
-                printf("This is file number %i\n", i);
-
                 // Close Previous File
                 fclose(img);
 
@@ -59,16 +57,24 @@ int main(int argc, char *argv[])
                 // Open filename to write
                 img = fopen(filename, "w");
 
-                // // Write new file
-                fwrite(bytes, 512, 1, img);
+                if (img == NULL)
+                {
+                    printf("img ptr returned null");
+                    return 2;
+                }
+                else
+                {
+                    // Write new file
+                    fwrite(bytes, 512, 1, img);
 
-                // Increment Filename Count
-                i++;
+                    // Increment Filename Count
+                    i++;
+
+                }
             }
             else
             {
 
-                printf("first file");
                 // Reassign Found to Truthy
                 found = true;
 
@@ -78,25 +84,37 @@ int main(int argc, char *argv[])
                  // Open filename to write
                 img = fopen(filename, "w");
 
-                // // Write new file
-                fwrite(bytes, 512, 1, img);
+                if (img == NULL)
+                {
+                    printf("img ptr returned null");
+                    return 2;
+                }
+                else
+                {
+                    // Write new file
+                    fwrite(bytes, 512, 1, img);
 
-                // Increment Filename Count
-                i++;
+                    // Increment Filename Count
+                    i++;
+
+                }
             }
         }
         else
         {
             if (found)
             {
+
                 // Write new file
                 fwrite(bytes, 512, 1, img);
 
             }
+
         }
     }
 
-    // Close File
+    // Close All Files
+    fclose(img);
     fclose(file);
 
     return 0;
