@@ -45,9 +45,6 @@ bool check(const char *word)
     return false;
 }
 
-
-
-
 // Hashes word to a number
 // Hash Function Reference from Neel Metha https://github.com/hathix/cs50-section/blob/master/code/7/sample-hash-functions/good-hash-function.c
 unsigned int hash(const char *word)
@@ -55,17 +52,13 @@ unsigned int hash(const char *word)
 
     unsigned long hash_word = 5381;
 
-   for (const char *ptr = word; *ptr != '\0'; ptr++)
-   {
+    for (const char *ptr = word; *ptr != '\0'; ptr++)
+    {
         hash_word = ((hash_word << 5) + hash_word) + tolower(*ptr);
-   }
+    }
 
     return hash_word % N;
 }
-
-
-
-
 
 // Loads dictionary into memory, returning true if successful else false
 bool load(const char *dictionary)
@@ -119,10 +112,6 @@ bool load(const char *dictionary)
     return true;
 }
 
-
-
-
-
 // Returns number of words in dictionary if loaded else 0 if not yet loaded
 unsigned int size(void)
 {
@@ -136,13 +125,12 @@ bool unload(void)
     {
          node *trav = table[i];
 
-        // Iterate over hash table
+        // Iterate over hash table and free tmp nodes
         while (trav != NULL)
         {
             node *tmp = trav;
             trav = trav->next;
             free(tmp);
-
         }
 
     }
