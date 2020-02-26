@@ -134,15 +134,15 @@ bool unload(void)
 {
     for (int i = 1; i < N; i++)
     {
-         node *trav = table[i]->next;
-         node *tmp = trav;
+         node *trav = table[i];
 
         // Iterate over hash table
         while (trav != NULL)
         {
+            node *tmp = trav;
             trav = trav->next;
             free(tmp);
-            tmp = trav;
+
         }
 
     }
