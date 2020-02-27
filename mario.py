@@ -1,6 +1,7 @@
 import sys
 from cs50 import get_int
 
+
 def main():
     # Call Prompt for User Input
     height = prompt()
@@ -11,6 +12,7 @@ def main():
         sys.exit()
 
 # Gather Input from User
+
 def prompt():
     # Run until User Provides a Number between 1-8
     while True:
@@ -20,6 +22,7 @@ def prompt():
     return height
 
 # Print Pyramid
+
 def pyramid(height):
     # Loop up to height
     for i in range(height):
