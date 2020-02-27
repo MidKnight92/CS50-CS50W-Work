@@ -1,4 +1,5 @@
 import sys
+from cs50 import get_int
 
 def main():
     height = prompt()
@@ -8,11 +9,11 @@ def main():
         sys.exit()
 
 def prompt():
-    height = input("Height: ")
-    if not (height.isdigit()) or int(height) not in range(1,9):
-        main()
-    else:
-        return int(height)
+    while True:
+        height = get_int("Height: ")
+        if height > 0 and height < 9:
+            break
+    return height
 
 def pyramid(height):
     for i in range(height):
