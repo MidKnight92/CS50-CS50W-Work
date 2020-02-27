@@ -17,12 +17,10 @@ def prompt():
 
 def pyramid(height):
     for i in range(height):
-        n = height - i
-        for j in range(n):
-            print(end=" ")
-        for k in range(i + 1):
-            print("#", end="")
-        print(" ")
+        print(" " * (height - i - 1), end="")
+        print("#" * (i + 1), end="")
+        print()
+
 
 
 if __name__ == "__main__":
