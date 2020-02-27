@@ -13,6 +13,7 @@ def main():
 
 # Gather Input from User
 
+
 def prompt():
     # Run until User Provides a Number between 1-8
     while True:
@@ -23,6 +24,7 @@ def prompt():
 
 # Print Pyramid
 
+
 def pyramid(height):
     # Loop up to height
     for i in range(height):
@@ -31,6 +33,7 @@ def pyramid(height):
         # Hashes are One More then the Row Number
         print("#" * (i + 1), end="")
         print()
+        
 
 if __name__ == "__main__":
     main()
