@@ -3,8 +3,10 @@ from cs50 import get_string
 L = 0.00
 S = 0.00
 
-# Todo
-def main(l,s):
+
+
+
+def main(l, s):
     # Invoke the promptUser function
     promptUser()
 
@@ -21,9 +23,6 @@ def main(l,s):
         print('Before Grade 1')
     else:
         print(f'Grade {index}')
-
-
-
 
 
 # Prompt user for a string of text
@@ -59,12 +58,10 @@ def countArgs(text):
     # Pass the number of letter and words as args to avg_sent
     avg_sent(sentences, words)
 
-
 def avg_ltrs(letter, words):
     l = (letter * 100) / words
     global L
     L = l
-
 
 
 
@@ -76,6 +73,4 @@ def avg_sent(sentences, words):
 
 # Calls main function last
 if __name__ == '__main__':
-    main(L,S)
-
-
+    main(L, S)
