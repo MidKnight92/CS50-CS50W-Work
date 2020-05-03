@@ -1,0 +1,56 @@
+body {
+    background-color: coral;
+}
+
+
+iframe {
+    display: block;
+    width: 50vw;
+    height: 50vh;
+    margin: 20px auto;
+    border: 1px solid black;
+}
+
+p {
+    background: silver;
+    padding: 10px;
+    text-align: justify;
+    margin: 20px 20px;
+    border: 1px solid black;
+}
+
+#grass {
+    background: green;
+    position: relative;
+    height: 200px;
+    width: 200px;
+}
+
+#dog {
+    background-color: black;
+    position: absolute;
+    width: 20px;
+    height: 20px;
+}
+
+#geo{
+    border-radius: 5px;
+    position: inline-block;
+    text-align: center;
+}
+
+#location {
+    font-weight: bolder;
+    display: block;
+    text-align: center;
+}
+
+#rotate{
+    margin: 50% auto;
+    background-color: pink;
+    transform: rotate(60deg);
+}
+
+#brand{
+    cursor: default;
+}
