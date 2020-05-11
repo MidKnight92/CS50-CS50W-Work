@@ -2,7 +2,7 @@ import sys
 from cs50 import get_float
 
 def main():
-    amount = change_owned();
+    amount = change_owned()
 
     # Initialize coin variable to 0 this will be incremented as coins are being used
     coins = 0
