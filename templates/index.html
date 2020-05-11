@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Portfolio
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+        <thread>
+            <tr>
+                <th scope="col">Symbol</th>
+                <th scope="col">Name</th>
+                <th scope="col">Shares</th>
+                <th scope="col">Price</th>
+                <th scope="col">TOTAL</th>
+            </tr>
+        </thread>
+        <tbody>
+                {% for h in holdings %}
+             <tr>
+                <td>{{ h["symbol"] }}</td>
+                <td>{{ h["name"] }}</td>
+                <td>{{ h["SUM(shares)"] }}</td>
+                <td>{{ "$%.2f"|format(h["current_price"]) }}</td>
+                <td>{{ "$%.2f"|format(h["Sum(current_worth)"]) }}</td>
+            </tr>
+                {% endfor %}
+
+            <tr>
+                <td>Cash</td>
+                <td colspan="3"></td>
+                <td>{{ "$%.2f"|format(cash) }}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+                <td colspan="4"></td>
+                <td style="font-weight:bold">{{ "$%.2f"|format(total) }}</td>
+            </tfoot>
+    </table>
+{% endblock %}

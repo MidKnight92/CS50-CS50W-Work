@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Cash
+{% endblock %}
+
+{% block main %}
+    <div>
+        <h6 style="font-weight: bolder; color:green;">Current Cash Value: {{ "$%.2f"|format(cash) }}</h6>
+    </div>
+    <form action="/cash" method="post">
+        <div class="form-group">
+            <h6>Insert you contribution amount:</h6>
+            <input class="form-control" placeholder="$xxx,xxx.xx" name="contribution" type="number">
+        </div>
+        <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+
+{% endblock %}
