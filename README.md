@@ -1,0 +1,4 @@
+# Project 0
+
+Web Programming with Python and JavaScript
+I used this project as an opportunity to create my own portfolio. Thus with exception of table.html and grid.html, I will be utilizing this project -after a few more tweaks- as my website from henceforth. The project contains an about me page - short description of who I am, contact page - form, resume page - summary of my resume, project page - a brief description of my past projects, grid page, and a tables page - shows a fake list of clients and services. I have also included links to my social media accounts and a link to download my resume throughout the project. 
