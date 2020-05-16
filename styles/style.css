@@ -1,0 +1,179 @@
+body {
+  background-color: #140c00;
+  background-image: url("../images/cubes.png");
+  font-family: "Open Sans", sans-serif;
+}
+
+img {
+  border-radius: 20%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 15vw;
+  border: inset;
+  margin-bottom: 2%;
+}
+
+p {
+  color: whitesmoke;
+  text-align: center;
+  padding: 0 5%;
+}
+
+div {
+  margin: auto 2%;
+}
+div i {
+  color: gray;
+}
+
+div {
+  text-align: center;
+  margin: auto auto;
+}
+div h1 {
+  font-family: "Merriweather Sans", sans-serif;
+  color: whitesmoke;
+  font-weight: bolder;
+  font-size: 6vw;
+}
+div h3 {
+  font-family: "Monoton", cursive;
+  color: #2079c7;
+  font-size: 4vw;
+}
+
+a {
+  color: gray;
+}
+
+form {
+  background-color: #140c00;
+  padding: 4%;
+  border: inset;
+  margin-bottom: 2%;
+}
+form label {
+  color: gray;
+  padding: 4%;
+}
+form .btn {
+  color: whitesmoke;
+  background-color: #2079c7;
+}
+form .btn:active {
+  background-color: gray;
+}
+
+.center-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+}
+
+.bottom {
+  position: fixed;
+  text-align: center;
+  bottom: 0px;
+  width: 100%;
+}
+
+section {
+  color: whitesmoke;
+}
+
+.tech i {
+  color: whitesmoke;
+}
+
+ul {
+  margin-top: 1.5%;
+}
+
+a:hover {
+  color: #2079c7;
+}
+
+a:active {
+  color: whitesmoke;
+}
+
+a i:hover {
+  color: #2079c7;
+}
+
+main {
+  background-color: #140c00;
+  padding: 4%;
+  border: inset;
+  margin-bottom: 2%;
+}
+main section {
+  padding: 2%;
+}
+main section p {
+  font-style: italic;
+}
+main section span {
+  color: gray;
+}
+main h4 {
+  color: #2079c7;
+  font-weight: bold;
+}
+
+@media only screen and (max-width: 1500px) {
+  .projectMain {
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+}
+@media only screen and (max-width: 1300px) {
+  /* default iPad screens */
+  body {
+    background-color: #140c00;
+  }
+  body main {
+    border: none;
+    background-image: url("../images/cubes.png");
+    font-size: 2vw;
+  }
+  body .header, body .smTxt {
+    font-size: 4vw;
+  }
+  body form {
+    border: none;
+    background-image: url("../images/cubes.png");
+    font-size: 3vw;
+  }
+  body a, body i {
+    font-size: 3vw;
+  }
+}
+@media screen and (max-width: 500px) {
+  /* styles for mobile browsers smaller than 500px; */
+  body {
+    background-color: #140c00;
+  }
+  body main {
+    border: none;
+    background-image: url("../images/cubes.png");
+    font-size: 4vw;
+  }
+  body .header, body .smTxt {
+    font-size: 4vw;
+  }
+  body form {
+    border: none;
+    background-image: url("../images/cubes.png");
+    font-size: 4vw;
+  }
+  body a, body i {
+    font-size: 4vw;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */
