@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Search
+{% endblock title %}
+
+{% block main %}
+    <div class="jumbotron big-banner mb-0 jumbotron-fluid" style="background-image: url(../static/alfons-morales-YLSwjSy7stw-unsplash.jpg);
+    background-size: 100%; height: 500px; padding-top: 150px;">
+        <div class="container">
+            <div class="row alignt-items-center">
+                <div class="col-md-12">
+                    <form class="form-inline my-2 my-lg-0" method="POST">
+                        <input class="form-control form-control-lg mr-sm-0 col-8 border-right-0" style="border-radius: 5px 0px 5px;" type="search" placeholder="Search Title, Author, or ISBN" aria-label="Search" name="query">
+                        <button class="btn btn-dark btn-outline-secondary btn-lg my-2 my-som-0 col-2 border-left-0" style="border-radius: 0px 5px 5px 0px;" type="submit"><i class="fas text-danger fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock main %} 

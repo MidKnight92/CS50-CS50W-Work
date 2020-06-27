@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Welcome
+{% endblock title %}
+
+{% block main %}
+    <div class="jumbotron" style="background-image: url(../static/stack.jpg);
+    background-size: cover; padding-bottom: 250px;">
+        <h1 style="color: white" class="display-4">Hello, Book-lover!</h1>
+        <p style="color: white" class="lead">Are you looking for your next great read??!! Look no further! Search for your next great adventure by title, author, and even ISBN. Once you do, rate it and see what others have said about it.</p>
+        <hr class="my-4">
+        <p style="color: white">Create an account and join the fun.</p>
+        <a class="btn btn-primary btn-lg" href="/register" role="button">Click here</a>
+    </div>
+{% endblock main %} 
