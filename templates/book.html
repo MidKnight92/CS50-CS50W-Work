@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Book: {{ book[0]['title'] }}
+{% endblock title%}
+
+{% block main %}
+
+    <h1 class="warning">{{ book[0]['title'] }}</h1>
+    <div class="card-deck">
+        <div class="card">
+            <!-- <img src="{{book[0]['image_url']}}" class="card-img-top" alt="Author image" width="10px" height="5%"> -->
+            <div class="card-body">
+                <h5 class="card-title">Author: {{ book[0]['name'] }}</h5>
+                <h5 class="card-title">Year Published: {{ book[0]['original_publication_year'] }}</h5>
+                <h5 class="card-title">Page Count: {{ book[0]['num_pages'] }}</h5>
+                <h5 class="card-title">GoodReads Number of Ratings: {{ book[0]['ratings_count'] }}</h5>
+                <h5 class="card-title">GoodReads Rating: {{ book[0]['average_rating'] }}</h5>
+                <h5 class="card-title">ISBN: {{ book[0]['isbn'] }}</h5>
+                <a href="{{book[0]['url']}}" target="_blank"><h6 class="card-title">Learn more</h6></a>
+                {% for r in reviews %}
+                <div class="card-deck">
+                    <div class="card border-dark mb-3">
+                        <div class="card-body text-dark">
+                            <h5 class="card-title">Customer Review</h5>
+                                <p class="card-text">Rating: {{ r["rating"] }} out of 5 stars</p>
+                                <p class="card-text">Review: {{ r["review"] }}</p>
+                                <footer class="blockquoote-footer">
+                                    {% if r["timestamp"] == None %}
+                                    <small class="text-muted">
+                                        Reviewed on <cite title="Source Tile">Date Unavailable</cite>
+                                    </small>
+                                    {% else %}
+                                    <small class="text-muted">
+                                        Reviewed on <cite title="Source Tile">{{r["timestamp"]}}</cite>
+                                    </small>
+                                    {% endif %}
+                                </footer>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <form method="POST">
+                    <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Rate:</label>
+                    <select name="rating" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
+                      <option selected value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                    </select>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Write Review:</label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" name="text" rows="3"></textarea>
+                      </div>
+                    <button type="submit" class="btn btn-primary my-1">Submit</button>
+                </form>    
+            </div>
+        </div>
+    </div>
+ 
+{% endblock main %}
+
