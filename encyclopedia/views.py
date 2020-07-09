@@ -19,6 +19,7 @@ def entry(request, title):
     # Retrieve the Markdown contents of an Encyclopedia entry by its title, 
     entry = util.get_entry(title)
 
+    # Entry exists
     if entry:
         
         # Convert the Markdown into HTML
@@ -29,7 +30,8 @@ def entry(request, title):
             "content": html
         })
     else:
-        # return(render, "encyclopedia/entry.html", {
-        #     "entry": "Error: Page Not Found"
-        # })
-        return HttpResponse('<h1>Page not Found<h1>')
+        return render(request, "encyclopedia/entry.html", {
+            "title": "Error",
+            "content": "<h1>Error: Page Not Found<h1>"
+        })
+        
