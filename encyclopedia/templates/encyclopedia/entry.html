@@ -1,5 +1,9 @@
-{% extends "encycylopedia/layout.html" %}
+{% extends "encyclopedia/layout.html" %}
 
-{% block body %}
-    <p>{{ entry }}</p>
+{% block title %}
+    {{ title }}
 {% endblock %}
+
+    {% block body %}
+        {{ content|safe }}
+    {% endblock %}
