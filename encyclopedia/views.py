@@ -4,11 +4,17 @@ from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 import markdown2
 from . import util
 
-
 def index(request):
-    return render(request, "encyclopedia/index.html", {
-        "entries": util.list_entries()
-    })
+    """ Index Page: Users can click on any entry name to be taken directly to that entry page"""
+    # Check for query in search bar
+    query = request.GET.get("q")
+    if query:
+        print(query)   
+        return HttpResponse("todo")
+    else:
+        return render(request, "encyclopedia/index.html", {
+            "entries": util.list_entries()
+        })
 
 def entry(request, title):
     """Entry Page: Visiting /wiki/TITLE, where TITLE is the title of an encyclopedia entry, should render a page that displays the contents of that encyclopedia entry."""
@@ -23,7 +29,7 @@ def entry(request, title):
         html = markdown2.markdown(entry)
 
         return render(request, "encyclopedia/entry.html", {
-            "title": title.capitalize(),
+            "title": title.upper(),
             "content": html
         })
     # Entry does not exists 
