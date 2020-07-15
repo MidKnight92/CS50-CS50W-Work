@@ -29,22 +29,18 @@ def index(request):
 
         # Entry does not exist in encyclopedia run search
         else:
-            possibilites = []
 
             # Query full list of entries
             entries = util.list_entries()
 
             # Uppercasee all entry name
-            entires = [word.upper() for word in entries]
-
+            entries = [word.upper() for word in entries]
+           
             # Check if query is a substring to entries
             match = [word for word in entries if query in word]
 
-            # Append matching entries
-            possibilites.append(match)
-
             return render(request, "encyclopedia/search.html", {
-        "content": possibilites
+        "content": match
     })
 
     # User has not queried the search bar (landing page) 
