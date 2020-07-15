@@ -6,10 +6,12 @@
 
     {% block body %}
     <h1>Search Results</h1>
-    
+
     <ul>
         {% for c in content%}
             <li><a href="wiki/{{ c }}">{{ c }}</a></li>
+        {% empty%}
+            <li>No Results Found</li>
         {% endfor %}
     </ul>
         

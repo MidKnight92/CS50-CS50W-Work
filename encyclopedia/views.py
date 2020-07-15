@@ -39,6 +39,11 @@ def index(request):
             # Check if query is a substring to entries
             match = [word for word in entries if query in word]
 
+    #         if not match:
+    #            return render(request, "encyclopedia/search.html", {
+    # #     "content": match
+    # # })
+    #         else: 
             return render(request, "encyclopedia/search.html", {
         "content": match
     })
