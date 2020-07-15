@@ -1,16 +1,25 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
+from django.urls import reverse
 
 import markdown2
 from . import util
 
 def index(request):
     """ Index Page: Users can click on any entry name to be taken directly to that entry page"""
+
     # Check for query in search bar
     query = request.GET.get("q")
     if query:
-        print(query)   
-        return HttpResponse("todo")
+        
+        # Retrieve the Markdown contents of an Encyclopedia entry
+        entry = util.get_entry(query)
+
+        # Entry exist in encyclopedia
+        if entry:
+            
+            return redirect(f"wiki/{query}")
+    # User has not queried the search bar (landing page) 
     else:
         return render(request, "encyclopedia/index.html", {
             "entries": util.list_entries()
