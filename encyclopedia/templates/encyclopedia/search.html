@@ -1,9 +1,14 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-    {{ title }}
+    Search
 {% endblock %}
 
     {% block body %}
-        {{ content|safe }}
+    <ul>
+        {% for c in content%}
+            <li>{{ c }}</li>
+        {% endfor %}
+    </ul>
+        
     {% endblock %}
