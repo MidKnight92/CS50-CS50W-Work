@@ -10,49 +10,9 @@ from . import util
 def index(request):
     """ Index Page: Users can click on any entry name to be taken directly to that entry page"""
 
-    # Check for query in search bar
-    query = request.GET.get("q")
-
-    # Query was sent
-    if query:
-
-         # Upper case query
-        query = query.upper()
-        
-        # Retrieve the Markdown contents of an Encyclopedia entry
-        entry = util.get_entry(query)
-
-        # Entry exist in encyclopedia
-        if entry:
-            
-            return redirect(f"wiki/{query}")
-
-        # Entry does not exist in encyclopedia run search
-        else:
-
-            # Query full list of entries
-            entries = util.list_entries()
-
-            # Uppercasee all entry name
-            entries = [word.upper() for word in entries]
-           
-            # Check if query is a substring to entries
-            match = [word for word in entries if query in word]
-
-    #         if not match:
-    #            return render(request, "encyclopedia/search.html", {
-    # #     "content": match
-    # # })
-    #         else: 
-            return render(request, "encyclopedia/search.html", {
-        "content": match
+    return render(request, "encyclopedia/index.html", {
+        "entries": util.list_entries()
     })
-
-    # User has not queried the search bar (landing page) 
-    else:
-        return render(request, "encyclopedia/index.html", {
-            "entries": util.list_entries()
-        })
 
 def entry(request, title):
     """Entry Page: Visiting /wiki/TITLE, where TITLE is the title of an encyclopedia entry, should render a page that displays the contents of that encyclopedia entry."""
@@ -76,4 +36,46 @@ def entry(request, title):
             "title": "Error",
             "content": "<h1>Error: Page Not Found<h1>"
         })
+
+def search(request):
+    """ User can type a query into search box returns links to matches or redirects to match if applicable"""
+    
+    # Query was sent
+    if request.POST.get("q"):
+
+        # Check for query in search bar
+        query = request.POST.get("q")
+         # Upper case query
+        query = query.upper()
         
+        # Retrieve the Markdown contents of an Encyclopedia entry
+        entry = util.get_entry(query)
+
+        # Entry exist in encyclopedia
+        if entry:
+            
+            return redirect(f"wiki/{query}")
+
+        # Entry does not exist in encyclopedia run search
+        else:
+
+            # Query full list of entries
+            entries = util.list_entries()
+
+            # Uppercasee all entry name
+            entries = [word.upper() for word in entries]
+           
+            # Check if query is a substring to entries
+            match = [word for word in entries if query in word]
+
+            return render(request, "encyclopedia/search.html", {
+        "content": match
+    })
+    else:
+        return render(request, "encyclopedia/search.html", {
+"content": None
+})
+
+
+def new(request):
+    return render(request, "encyclopedia/new.html")
