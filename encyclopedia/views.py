@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 from django.urls import reverse
-
+from django import forms
 import operator
 import markdown2
 from . import util
+# from .forms import EntryForm
 
+class NewEntryForm(forms.Form):
+    title = forms.CharField(label="Title")
+    text = forms.CharField(label="Text", widget=forms.Textarea)
 
 def index(request):
     """ Index Page: Users can click on any entry name to be taken directly to that entry page"""
@@ -39,7 +43,7 @@ def entry(request, title):
 
 def search(request):
     """ User can type a query into search box returns links to matches or redirects to match if applicable"""
-    
+
     # Query was sent
     if request.POST.get("q"):
 
@@ -78,4 +82,26 @@ def search(request):
 
 
 def new(request):
-    return render(request, "encyclopedia/new.html")
+    """ Create New Encyclopedia Entries. Enter a title for the page and content in the form of Markdown."""
+    
+    # User submited an entry most process data
+    if request.method == "POST":
+
+        # Create Form instance containg data from the request
+        form = NewEntryForm(request.POST)
+
+        # Check Validity of data
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            text = form.cleaned_data["text"]
+
+            return HttpResponse("todo")
+
+    # User made a GET request 
+    else: 
+        # Create Blank Form
+        form = NewEntryForm()
+
+        return render(request, "encyclopedia/new.html", {
+                "form": form
+            })
