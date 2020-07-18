@@ -5,7 +5,7 @@ from django import forms
 import operator
 import markdown2
 from . import util
-# from .forms import EntryForm
+import random
 
 class NewEntryForm(forms.Form):
     title = forms.CharField(label="Title")
@@ -104,7 +104,9 @@ def new(request):
 
             # Entry exists
             if entry:
-                return render(request, "encyclopedia/error.html")
+                return render(request, "encyclopedia/error.html", {
+                    "content": "An encyclopedia entry with that title already exist."
+                })
             else:
                 # Save new entry
                 util.save_entry(title, text)
@@ -128,4 +130,31 @@ def new(request):
 
         return render(request, "encyclopedia/new.html", {
                 "form": form
+            })
+
+def random_entry(request):
+    """ User will be directed to random entry page """
+
+    # Query full list of entries
+    entries = util.list_entries()
+
+    if entries: 
+
+        # Get Random Entry title
+        title = random.choice(entries)
+
+        # Retrieve the Markdown contents of an Encyclopedia entry by its title, 
+        page = util.get_entry(title)
+
+        # Convert the Markdown into HTML
+        html = markdown2.markdown(page)
+
+        # Redirect to new entry page
+        return render(request, "encyclopedia/entry.html", {
+        "title": title,
+        "content": html
+        })
+    else:
+            return render(request, "encyclopedia/error.html", {
+                "content": "Can not generate random entry."
             })

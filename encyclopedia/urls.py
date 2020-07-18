@@ -6,7 +6,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("new", views.new, name="new"),
     path("search", views.search, name="search"),
+    path("random", views.random_entry, name="random_entry"),
     path("wiki/<str:title>", views.entry, name="entry"),
     path("<str:query>", views.index, name="index")
-    
 ]
