@@ -94,8 +94,32 @@ def new(request):
         if form.is_valid():
             title = form.cleaned_data["title"]
             text = form.cleaned_data["text"]
+            
+            title = title.upper()
 
-            return HttpResponse("todo")
+            # Check if entry exist by title
+            entry = util.get_entry(title)
+
+            print(title)
+
+            # Entry exists
+            if entry:
+                return render(request, "encyclopedia/error.html")
+            else:
+                # Save new entry
+                util.save_entry(title, text)
+
+                # Retrieve the Markdown contents of an Encyclopedia entry by its title, 
+                page = util.get_entry(title)
+        
+                # Convert the Markdown into HTML
+                html = markdown2.markdown(page)
+
+                # Redirect to new entry page
+                return render(request, "encyclopedia/entry.html", {
+                "title": title,
+                "content": html
+                })
 
     # User made a GET request 
     else: 

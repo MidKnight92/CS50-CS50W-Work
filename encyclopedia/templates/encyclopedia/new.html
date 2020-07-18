@@ -5,9 +5,10 @@
 {% endblock %}
 
 {% block body %}
-    <h1>Create New Entry</h1>
+    <h1>Create New Encyclopedia Entry</h1>
+    <p>New encyclopedia entries are required to have a title and text. The text context must be in the form of Markdown.</p>
     <div>
-        <form class="my-form" action="{% url 'new' %}" method="post">
+        <form action="{% url 'new' %}" method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <input type="submit">
