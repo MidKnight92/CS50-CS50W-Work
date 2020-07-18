@@ -6,7 +6,7 @@
 
 {% block body %}
     <h1>Create New Encyclopedia Entry</h1>
-    <p>New encyclopedia entries are required to have a title and text. The text context must be in the form of Markdown.</p>
+    <p>New encyclopedia entries are required to have a title and text. The text context must be in the form of Markdown. Please type your entry's title as the header in the text box as well. For more information on Markdown please visit <a href="https://docs.github.com/en/github/writing-on-github/basic-writing-and-formatting-syntax" target="_blank">GitHub's Markdown guide</a>.</p>
     <div>
         <form action="{% url 'new' %}" method="post">
             {% csrf_token %}
