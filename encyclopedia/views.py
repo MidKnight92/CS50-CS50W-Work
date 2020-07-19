@@ -80,6 +80,9 @@ def search(request):
 "content": None
 })
 
+def edit(request):
+    """ User can edit markdown of current entries """
+    return HttpResponse("todo")
 
 def new(request):
     """ Create New Encyclopedia Entries. Enter a title for the page and content in the form of Markdown."""
