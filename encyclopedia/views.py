@@ -80,9 +80,23 @@ def search(request):
 "content": None
 })
 
-def edit(request):
-    """ User can edit markdown of current entries """
-    return HttpResponse("todo")
+def edit(request, title):
+    """ User can edit markdown of current encyclopedia entries """
+
+    # Display current markdown via a form 
+    if request.method == "GET":
+        content = util.get_entry(title)
+        print("content loaded in the GET")
+        return render(request, "encyclopedia/edit.html", {
+            "title": title,
+            "content": content
+        })
+    # User made a Post request save the new markdown and redirect to entry's wiki page
+    else:
+        content = request.POST.get("text")
+        util.save_entry(title, content)
+        return entry(request, title)
+        
 
 def new(request):
     """ Create New Encyclopedia Entries. Enter a title for the page and content in the form of Markdown."""

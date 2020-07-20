@@ -5,6 +5,9 @@
 {% endblock %}
 
     {% block body %}
+    <div>
         {{ content|safe }}
-        <a class="btn btn-primary" href="{% url 'edit' %}" role="button">Edit Content</a>
+    </div> 
+        <a class="btn btn-primary" href="/edit/{{title}}" role="button">Edit</a>
     {% endblock %}
+  
