@@ -8,6 +8,8 @@
     <div>
         {{ content|safe }}
     </div> 
+        {% if title != 'Error' %}
         <a class="btn btn-primary" href="/edit/{{title}}" role="button">Edit</a>
+        {% endif %}
     {% endblock %}
   
