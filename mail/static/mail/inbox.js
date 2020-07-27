@@ -41,27 +41,22 @@ function load_mailbox(mailbox) {
 
 async function sent_email(){
     try {
-
-      // Get the values
-      const recipients =  document.querySelector('#compose-recipients').value;
-      const subject = document.querySelector('#compose-subject').value;
-      const body =  document.querySelector('#compose-body').value; 
-
-      const createEmailResponse = await fetch('/emails', {
+      let response = await fetch('/emails', {
         method: 'POST',
         body: JSON.stringify({
-          recipients: recipients,
-          subject: subject,
-          body: body
+          recipients: document.querySelector('#compose-recipients').value,
+          subject: document.querySelector('#compose-subject').value,
+          body: document.querySelector('#compose-body').value
         })
       });
-      const parsedEmail = await createEmailResponse.json();
+
+      const parsedEmail = await response.json();
       console.log(parsedEmail)
-      
       // Load user's sent mailbox
       load_mailbox('sent');
 
     } catch (error) {
+      load_mailbox('archived');
       console.log(error);
     }
 }
