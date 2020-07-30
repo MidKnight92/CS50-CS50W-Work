@@ -23,7 +23,6 @@ async function get_emails(mailbox){
     await fetch(`/emails/${mailbox}`)
     .then(response => response.json())
     .then(result => {
-      console.log(result);
       // Show fetched messages
       if (result.length !== 0){
           result.forEach(email => {
@@ -138,7 +137,7 @@ function compose_email() {
 }
 
 function load_mailbox(mailbox) {
-  console.log("in load mailbox",mailbox)
+  console.log("in load mailbox", mailbox)
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
@@ -147,9 +146,9 @@ function load_mailbox(mailbox) {
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
   get_emails(mailbox);
-
+  console.log("after get_emails call in load_mailbox");
   // Add history to the browser
-  window.history.pushState({}, "",`/`);
+  // window.history.pushState({}, "",`/`);
 }
 
 console.log("end of js");
