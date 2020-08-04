@@ -40,7 +40,11 @@ async function get_emails(mailbox){
             element.innerHTML = `<b>Sender:</b> ${email['sender']} <br/><b>Subject:</b>${email['subject']} <br/> <b>Message:</b> ${email['body']} <br/><b>Time:</b> ${email['timestamp']}<hr><button data-id="${email['id']}" type="button" class="btn btn-sm btn-primary" data-action="unarchive">Unarchive</button>`;
           } 
           if (mailbox === 'sent'){
-            element.innerHTML = `<b>Sender:</b> ${email['sender']} <br/><b>Subject:</b>${email['subject']} <br/> <b>Message:</b> ${email['body']} <br/><b>Time:</b> ${email['timestamp']}`;
+            let recipients = email['recipients'];
+            if (recipients.length > 1) {
+              recipients = recipients.map(recipient => `<span style="margin-left: .5%">${recipient}</span>`);
+            }
+            element.innerHTML = `<b>Recipients:</b> ${recipients} <br/><b>Subject:</b>${email['subject']} <br/> <b>Message:</b> ${email['body']} <br/><b>Time:</b> ${email['timestamp']}`;
           }
 
           // Display unread emails with white background and read emails with a gray background
