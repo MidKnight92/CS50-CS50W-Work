@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
 
+  document.getElementById('submit').addEventListener('click', () => 
+  sent_email());
+
   // By default, load the inbox
   load_mailbox('inbox');
 });
@@ -171,7 +174,7 @@ async function view_email(id){
 
       messageInfo = email;
       // Show the name
-      document.querySelector('#email-view').innerHTML = `<h3>Message by ${email['sender']}</h3><div><b>Subject:</b>${email['subject']} <br/> <b>Message:</b> ${email['body']} <br/><b>Time:</b> ${email['timestamp']}<br/><hr><button type="button" class="btn btn-sm btn-primary" data-action="reply">Reply</button></div>`;
+      document.querySelector('#email-view').innerHTML = `<div><b>Sender:<b>${email['sender']}<br/><b>Subject:</b>${email['subject']}<br/><b>Time:</b> ${email['timestamp']}<br/><button type="button" class="btn btn-sm btn-primary" data-action="reply">Reply</button><hr><b>Message:</b> ${email['body']}</div>`;
     });
 
     // Show email view with message and hide other views
@@ -208,11 +211,6 @@ function compose_email() {
 
   // Add history to the browser
   window.history.pushState({}, "",`/`);
-
-
-  document.getElementById('submit').addEventListener('click', () => 
-  sent_email());
-
   
 }
 
@@ -299,7 +297,6 @@ function load_mailbox(mailbox) {
 
   // Add history to the browser
   window.history.pushState({}, "",`/`);
-
 
   get_emails(mailbox);
   
