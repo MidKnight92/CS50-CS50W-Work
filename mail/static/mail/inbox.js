@@ -135,9 +135,11 @@ async function sent_email(){
       } else {
 
         // Create an error message and append it to the emails-view
-        const div = document.createElement('div');
-        div.innerHTML = `<p>Error: ${result["error"]}</p>`
-        document.querySelector('#emails-view').append(div)
+        const pTag = document.querySelector("p");
+        document.querySelector('h3').innerText = "Error";
+        if (pTag.textContent === "No messages"){
+            pTag.innerText = `Error: ${result["error"]}`
+        }
 
         // Show emails view with message and hide other views
         document.querySelector('#emails-view').style.display = 'block';
