@@ -16,12 +16,11 @@ async function get_emails(mailbox){
     await fetch(`emails/${mailbox}`)
     .then(response => response.json())
     .then(result => {
-      console.log("this is result.length",result.length);
+      
       // Show fetched messages
       if (result.length !== 0){
           result.forEach(email => {
           
-          console.log(email);
           // Create div element
           const element = document.createElement('div');
 
@@ -57,7 +56,7 @@ async function get_emails(mailbox){
         if (mailbox === 'inbox'){
           document.querySelectorAll('button[data-action="archive"]').forEach((button) => {
             button.onclick = ()=> {
-              console.log("not archived in the process of archiving");
+              
               // Pass the email's id as an argument
               archive_email(button.dataset.id)
             }
@@ -66,8 +65,7 @@ async function get_emails(mailbox){
           //Add event listener to the buttons in the inbox to view email
           document.querySelectorAll('button[data-action="read"]').forEach((button) => {
             button.onclick = () => {
-              console.log("viewing email");
-              console.log(button);
+              
               // Pass the email's id as an argument
               view_email(button.dataset.id);
             }
@@ -78,7 +76,7 @@ async function get_emails(mailbox){
         if (mailbox === 'archive'){  
           document.querySelectorAll('button[data-action="unarchive"]').forEach((button) => {
             button.onclick = ()=> {
-              console.log("archived in the process of unarchiving");
+              
               // Pass the email's id as an argument
               unarchive_email(button.dataset.id)
             }
@@ -98,7 +96,6 @@ async function get_emails(mailbox){
     const div = document.createElement('div');
     div.innerHTML = `<p>Sorry there was an error</p>`
     document.querySelector('#emails-view').append(div)
-    console.log(error);
 
     // Add history to the browser
     window.history.pushState({}, "",`/`);
@@ -117,11 +114,9 @@ async function sent_email(){
     })
     .then (response => response.json())
     .then(result => {
-      console.log(result);
+      
       // Error send user back to the compose email section
       if (result["message"]){
-        
-        console.log("message sent,now loading sent mailbox")
 
         // Update url
         window.history.pushState({}, '', '/');
@@ -132,7 +127,6 @@ async function sent_email(){
        
       } else {
 
-        console.log("in the else")
         // Create an error message and append it to the emails-view
         const div = document.createElement('div');
         div.innerHTML = `<p>Error: ${result["error"]}</p>`
@@ -147,8 +141,7 @@ async function sent_email(){
     });
 
   } catch (error) {
-    console.log("in the catch of sent_email")
-    console.log(error)
+
     // Create an error message and append it to the emails-view
     const div = document.createElement('div');
     div.innerHTML = `<p>Error Occured/p>`
@@ -158,21 +151,20 @@ async function sent_email(){
     document.querySelector('#emails-view').style.display = 'block';
     document.querySelector('#email-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'none';
-    console.log(error);
-    // return false;
+
   }
    // Stop the form from submitting
    return false;
 }
 
 async function view_email(id){
-  console.log(id);
+
   try {
     let messageInfo = '';
     await fetch(`/emails/${id}`)
     .then(response => response.json())
     .then(email =>{
-      console.log(email);
+
       messageInfo = email;
       // Show the name
       document.querySelector('#email-view').innerHTML = `<h3>Message by ${email['sender']}</h3><div><b>Subject:</b>${email['subject']} <br/> <b>Message:</b> ${email['body']} <br/><b>Time:</b> ${email['timestamp']}<br/><hr><button type="button" class="btn btn-sm btn-primary" data-action="reply">Reply</button></div>`;
@@ -189,7 +181,7 @@ async function view_email(id){
     // Add event listener to the reply button 
     const button = document.querySelector('button[data-action="reply"]')
     button.onclick = () => {
-      console.log("clickeda reply")
+
       reply_email(messageInfo)
     }
 
@@ -213,10 +205,9 @@ function compose_email() {
   // Add history to the browser
   window.history.pushState({}, "",`/`);
 
-  console.log("composing");
+
   document.getElementById('submit').addEventListener('click', () => 
-  {console.log("clicked");
-  sent_email()});
+  sent_email());
 
   
 }
@@ -229,7 +220,6 @@ async function read_email(id){
         read: true
       })
     });
-    console.log("Read:", id);
   } catch (error) {
     console.log(error);
   }
@@ -243,7 +233,7 @@ async function archive_email(id){
         archived: true
       })
     });
-    console.log("email is now archived");
+
     load_mailbox('inbox');
   } catch (error) {
     console.log(error);
@@ -258,7 +248,7 @@ async function unarchive_email(id){
         archived: false
       })
     });
-    console.log("email is now unarchived");
+
     load_mailbox('inbox');
   } catch (error) {
     console.log(error);
@@ -294,7 +284,7 @@ function reply_email(message){
 }
 
 function load_mailbox(mailbox) {
-  console.log("in load mailbox", mailbox)
+  
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#email-view').style.display = 'none';
@@ -306,9 +296,7 @@ function load_mailbox(mailbox) {
   // Add history to the browser
   window.history.pushState({}, "",`/`);
 
-  console.log("about to run get_emails", mailbox);
+
   get_emails(mailbox);
   
 }
-
-console.log("end of js");
