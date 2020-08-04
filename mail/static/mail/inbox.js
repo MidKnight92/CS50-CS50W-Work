@@ -176,7 +176,7 @@ async function view_email(id){
 
       messageInfo = email;
       // Show the name
-      document.querySelector('#email-view').innerHTML = `<div><b>Sender:<b>${email['sender']}<br/><b>Subject:</b>${email['subject']}<br/><b>Time:</b> ${email['timestamp']}<br/><button type="button" class="btn btn-sm btn-primary" data-action="reply">Reply</button><hr><b>Message:</b> ${email['body']}</div>`;
+      document.querySelector('#email-view').innerHTML = `<div><b>Sender:</b>${email['sender']}<br/><b>Subject:</b>${email['subject']}<br/><b>Time:</b> ${email['timestamp']}<br/><button type="button" class="btn btn-sm btn-primary" data-action="reply">Reply</button><hr><b>Message:</b> ${email['body']}</div>`;
     });
 
     // Show email view with message and hide other views
