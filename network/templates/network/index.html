@@ -3,7 +3,7 @@
 {% block body %}
 {% load static %}
     {% if user.is_authenticated %}
-    <img src="{% static 'network/womanHiking.jpg' %}" width="80%" alt="Woman Hiking">
+    <img src="{% static 'network/womanHiking.jpg' %}" width="30%" alt="Woman Hiking">
     <h1>Welcome {{ user.username }}</h1>
     <h6 class="text-muted">{{ now }}</h6>
     <form action="{% url 'index' %}" method="POST">

@@ -20,7 +20,7 @@ def index(request):
             user = request.user
 
             print(user)
-            
+
             # Instiante a posts
             posts = Post(user=user, post=text)
 
@@ -91,8 +91,9 @@ def register(request):
 
 def posts(request):
     try:
-        posts = Post.objects.all()
-        print(posts)
+        # Query for most recent posts
+        posts = Post.objects.all().order_by('-timestamp')
+        
         return render(request, "network/posts.html", {
             "posts": posts
         })
