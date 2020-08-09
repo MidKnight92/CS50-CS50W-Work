@@ -100,3 +100,6 @@ def posts(request):
     except expression as identifier:
     
         return HttpResponse("error")
+
+def profile(request, username):
+    return HttpResponse(username)
