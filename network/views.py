@@ -144,7 +144,7 @@ def profile(request, username):
         followee = Follower.objects.filter(user=current_user, followee=username_profile)
         
         print("this is followee", followee)
-        
+
         # Default current user is not following user
         following_user = False
 
@@ -179,3 +179,6 @@ def profile(request, username):
             queryset.delete()
 
         return HttpResponseRedirect(f"{username}")
+
+def following(request):
+    return HttpResponse("todo")
