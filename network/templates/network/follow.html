@@ -4,7 +4,7 @@
 {% load static %}
     <h1>Following</h1>
     {% for post in posts %}
-        <div class="list-group">
+    <div class="list-group">
         <div style="margin: 2%;" class="list-group-item list-group-item-action">    
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1 text-uppercase font-weight-bolder">
@@ -26,4 +26,21 @@
             {% endfor %}
         </ul>
     </div>
+    <nav aria-label="Profile Navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                {% if page.has_previous %}
+                <a class="page-link" href="?page={{page.previous_page_number}}">Previous</a>
+                {% endif %}
+            </li>
+            <li class="page-item">
+                <a class="page-link">Page {{page.number}} of {{page.paginator.num_pages}}</a>
+            </li>
+            <li class="page-item">
+                {% if page.has_next %}
+                <a class="page-link" href="?page={{page.next_page_number}}">Next</a>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
 {% endblock %}

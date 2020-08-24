@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, logout
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import IntegrityError
 from django.db.models import Count
 from django.http import HttpResponse, HttpResponseRedirect
@@ -103,12 +104,28 @@ def posts(request):
         # Query for most recent posts
         posts = Post.objects.all().order_by('-timestamp')
 
+        paginator = Paginator(posts, 10)
+
+        page = request.GET.get('page')
+        page_obj = paginator.get_page(page)
+
+        try:
+            # Page is not the first or last
+            posts = paginator.page(page_obj)
+        except PageNotAnInteger:
+            # First page
+            posts = paginator.page(1)
+        except EmptyPage:
+            # Last Page
+            posts = paginator.page(paginator.num_pages)
+
         # Get Like Count
         likes = Like.objects.all().order_by('post')
-        # for like in likes:
-        #     print(like)
-        
+            # for like in likes:
+            #     print(like)
+    
         return render(request, "network/posts.html", {
+            "page": page_obj,
             "posts": posts,
             "likes": 0
         })
@@ -128,14 +145,25 @@ def profile(request, username):
     if request.method == "GET":
 
         # Get all posts by user display latest post first
-        posts = Post.objects.order_by('-timestamp').filter(user=username_profile)
+        posts_list = Post.objects.order_by('-timestamp').filter(user=username_profile)
 
-        # print(posts)
+        paginator = Paginator(posts_list, 10)
+        page = request.GET.get('page')
+        page_obj = paginator.get_page(page)
+        
+        try:
+            # Page is not the first or last
+            posts = paginator.page(page_obj)
+        except PageNotAnInteger:
+            # First page
+            posts = paginator.page(1)
+        except EmptyPage:
+            # Last Page
+            posts = paginator.page(paginator.num_pages)
 
         # Get profile users follower count
         followers = Follower.objects.filter(followee=username_profile).count()
 
-        print(followers)
 
         # Get profile user count of users they are following
         following = Follower.objects.filter(user=username_profile).count()
@@ -143,7 +171,6 @@ def profile(request, username):
         # Query db for user following this profile user
         followee = Follower.objects.filter(user=current_user, followee=username_profile)
         
-        print("this is followee", followee)
 
         # Default current user is not following user
         following_user = False
@@ -154,6 +181,7 @@ def profile(request, username):
 
 
         return render(request, "network/profile.html", {
+            "page": page_obj,
             "profile_name": username,
             "posts": posts,
             "followers": followers,
@@ -190,10 +218,23 @@ def following(request):
     for query in query_result:
         following.append(query)
 
-    print(following)    
-    posts = Post.objects.filter(user__in=following).order_by("-timestamp")
+    # print(following)    
+    posts_list = Post.objects.filter(user__in=following).order_by("-timestamp")
+    paginator = Paginator(posts_list, 10)
+    page = request.GET.get('page')
+    page_obj = paginator.get_page(page)
+    
+    try:
+        # Page is not the first or last
+        posts = paginator.page(page_obj)
+    except PageNotAnInteger:
+        # First page
+        posts = paginator.page(1)
+    except EmptyPage:
+        # Last Page
+        posts = paginator.page(paginator.num_pages)
 
-    print(posts)
     return render(request, "network/follow.html", {
+        "page": page_obj,
         "posts": posts
     })
