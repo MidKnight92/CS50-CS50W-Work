@@ -140,7 +140,7 @@ def profile(request, username):
         # Get profile user count of users they are following
         following = Follower.objects.filter(user=username_profile).count()
         
-        # Get List of users the current user is following
+        # Query db for user following this profile user
         followee = Follower.objects.filter(user=current_user, followee=username_profile)
         
         print("this is followee", followee)
@@ -181,4 +181,19 @@ def profile(request, username):
         return HttpResponseRedirect(f"{username}")
 
 def following(request):
-    return HttpResponse("todo")
+    '''See all posts made by users that the current user follows'''
+
+    # Get id's of users the current user is following
+    query_result = Follower.objects.filter(user=request.user).values_list('followee', flat=True)
+
+    following = [] 
+    for query in query_result:
+        following.append(query)
+
+    print(following)    
+    posts = Post.objects.filter(user__in=following).order_by("-timestamp")
+
+    print(posts)
+    return render(request, "network/follow.html", {
+        "posts": posts
+    })
