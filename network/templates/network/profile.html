@@ -30,9 +30,9 @@
             <div class="d-flex w-100 justify-content-between">
                 <small class="text-muted">{{ post.timestamp }}</small>
             </div>
-            <p class="mb-3 font-italic">{{ post.post }}</p>
+            <p id="{{post.id}}" data-textContent="{{post.post}}" class="mb-3 font-italic">{{ post.post }}</p>
             {% if request.user == post.user %}
-            <button type="button" id="edit_post" class="btn btn-outline-primary btn-sm">Edit</button>
+                <button data-action="edit" id="{{post.id}}" type="button"  class="btn btn-outline-secondary btn-sm">Edit</button>
             {% endif %}
         </div>
             {% empty%}

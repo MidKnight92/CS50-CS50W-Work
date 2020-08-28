@@ -204,23 +204,30 @@ def profile(request, username):
             "followee": following_user
         })
 
-    # User made a post request (follow/unfollow username profile) 
+    # User made a post request
     else:
 
-        # Check if name value is follow else it's unfollow
-        action = 'follow' if request.POST.get('follow') else 'unfollow'
-        
-        # Follow user save to Follower db
-        if action == 'follow':
+        # Check if name value is follow
+        if request.POST.get('follow'):
             follow = Follower(user=request.user, followee=User.objects.get(username=username))
             follow.save()
-        else:
+        
+        # Check if name value if unfollow
+        elif request.POST.get('unfollow'):
             # Get query of current user and profile user
             queryset = Follower.objects.filter(user=current_user, followee=username_profile)
 
             # Delete from Follower db
             queryset.delete()
 
+        # Post request is Neither follow nor unfollow - User is updating their post 
+        else:
+            try:
+                data = json.loads(request.body)
+                post = Post.objects.filter(pk=data['post_id']).update(post=data['post'])
+                return HttpResponse("success")
+            except expression as identifier:
+                return HttpResponse("error")
         return HttpResponseRedirect(f"{username}")
 
 @login_required
