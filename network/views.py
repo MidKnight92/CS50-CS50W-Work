@@ -1,11 +1,15 @@
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import IntegrityError
+from django.http import JsonResponse
 from django.db.models import Count
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
+from django.views.decorators.csrf import csrf_exempt
+import json
 from .models import User, Post, Follower, Like
 
 
@@ -99,40 +103,51 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
+
+@csrf_exempt
 def posts(request):
-    try:
-        # Query for most recent posts
-        posts = Post.objects.all().order_by('-timestamp')
-
-        paginator = Paginator(posts, 10)
-
-        page = request.GET.get('page')
-        page_obj = paginator.get_page(page)
-
+    if request.method == "GET":
         try:
-            # Page is not the first or last
-            posts = paginator.page(page_obj)
-        except PageNotAnInteger:
-            # First page
-            posts = paginator.page(1)
-        except EmptyPage:
-            # Last Page
-            posts = paginator.page(paginator.num_pages)
+            # Query for most recent posts
+            posts = Post.objects.all().order_by('-timestamp')
 
-        # Get Like Count
-        likes = Like.objects.all().order_by('post')
-            # for like in likes:
-            #     print(like)
-    
-        return render(request, "network/posts.html", {
-            "page": page_obj,
-            "posts": posts,
-            "likes": 0
-        })
-    except expression as identifier:
-    
-        return HttpResponse("error")
+            paginator = Paginator(posts, 10)
 
+            page = request.GET.get('page')
+            page_obj = paginator.get_page(page)
+
+            try:
+                # Page is not the first or last
+                posts = paginator.page(page_obj)
+            except PageNotAnInteger:
+                # First page
+                posts = paginator.page(1)
+            except EmptyPage:
+                # Last Page
+                posts = paginator.page(paginator.num_pages)
+
+            # Get Like Count
+            likes = Like.objects.all().order_by('post')
+        
+            return render(request, "network/posts.html", {
+                "page": page_obj,
+                "posts": posts,
+                "likes": 0
+            })
+        except expression as identifier:
+            return HttpResponse("error")
+    else:
+        try:
+            data = json.loads(request.body)
+            post = Post.objects.filter(pk=data['post_id']).update(post=data['post'])
+            return HttpResponse("success")
+        except expression as identifier:
+            return HttpResponse("error")
+        
+        
+
+@login_required
+@csrf_exempt
 def profile(request, username):
     
     # Get ID of user whose profile was selected
@@ -208,6 +223,8 @@ def profile(request, username):
 
         return HttpResponseRedirect(f"{username}")
 
+@login_required
+@csrf_exempt
 def following(request):
     '''See all posts made by users that the current user follows'''
 

@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
 const findPost = (button) => {
     document.querySelectorAll('p').forEach(p  => {
         if (button.id === p.id){
+            console.log(p);
             p.innerHTML = `<textarea>${p.dataset.textcontent}</textarea>`;
             button.dataset.action = "save";
         }
@@ -35,6 +36,20 @@ const savePost = (button, text) => {
         if (button.id === p.id){
             p.dataset.textcontent = text;
             p.innerHTML = `${text}`;
+            url = window.location.href
+            try {
+                fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        post_id: p.id,
+                        post: text
+                    })
+                }).then(response => {
+                    console.log(response)
+                })
+            } catch (error) {
+                console.log(error);
+            }
         }
     })
 }
