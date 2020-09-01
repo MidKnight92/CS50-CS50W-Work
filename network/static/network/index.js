@@ -19,6 +19,34 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })
     
+    // Listen for which thumbsup was clicked
+    document.querySelectorAll('svg').forEach(thumbsup => {
+        thumbsup.addEventListener('click', () => {
+            if (thumbsup.dataset.action == "like") {
+                thumbsup.dataset.action = "unlike"
+                const span = thumbsup.parentElement.childNodes[1].firstChild;
+                let num = parseInt(span.innerText)
+                num = num + 1
+                span.innerText = String(num)
+                span.dataset.likes = num                
+                // like(thumbsup.dataset.post_id, thumbsup.dataset.post_user_id)
+            } else {
+                console.log("in the else")
+                thumbsup.dataset.action = "like"
+                const span = thumbsup.parentElement.childNodes[1].firstChild;
+                let num = parseInt(span.innerText)
+                num = num - 1
+                span.innerText = String(num)
+                span.dataset.likes = num
+                if (num > 0){
+                    num = num - 1
+                    span.innerText = String(num)
+                    span.dataset.likes = num 
+                }
+                // unlike(thumbsup.dataset.post_id, thumbsup.dataset.post_user_id)
+            }
+        })
+    })
 })
 
 const findPost = (button) => {
@@ -52,4 +80,43 @@ const savePost = (button, text) => {
             }
         }
     })
+}
+
+const like = (postId, userId) => {
+    console.log("like")
+    try {
+        // post, user
+        url = window.location.href
+        fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify({
+                post_id: postId,
+                user_id: userId,
+                action: 'like'
+            })
+        }).then(response  => {
+            console.log(response)
+        })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+const unlike = (postId, userId) => {
+    console.log('unlike')
+    try {
+        url = window.location.href
+        fetch(url, {
+            method: 'PUT',
+            body: JSON.stringify({
+                post_id: postId,
+                user_id: userId,
+                action: 'unlike'
+            })
+        }).then(response  => {
+            console.log(response)
+        })
+    } catch (error) {
+        console.log(error)
+    }
 }

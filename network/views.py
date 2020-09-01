@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db import IntegrityError
 from django.http import JsonResponse
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -126,20 +126,44 @@ def posts(request):
                 # Last Page
                 posts = paginator.page(paginator.num_pages)
 
-            # Get Like Count
-            likes = Like.objects.all().order_by('post')
-        
+            
+            likes = Like.objects.values('post', 'user').annotate(Count('id')).order_by('post').filter(user=True)  
+
             return render(request, "network/posts.html", {
                 "page": page_obj,
                 "posts": posts,
-                "likes": 0
+                "likes": likes
             })
+        except expression as identifier:
+            return HttpResponse("error")
+    elif request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            post = Post.objects.filter(pk=data['post_id']).update(post=data['post'])
+            return HttpResponse("success")
         except expression as identifier:
             return HttpResponse("error")
     else:
         try:
+            print("in put")
+
             data = json.loads(request.body)
-            post = Post.objects.filter(pk=data['post_id']).update(post=data['post'])
+
+            post_instance = Post.objects.get(pk=data['post_id'])
+            print(post_instance)
+
+            user_instance = User.objects.get(pk=data['user_id'])
+            print(user_instance)
+
+            like = Like.objects.filter(post=data['post_id'], user=data['user_id'])
+
+            print(like)
+
+            if not like:
+                print("new like")
+                like = Like(post=post_instance, user=user_instance)
+                like.save()
+            print('outside the conditional')
             return HttpResponse("success")
         except expression as identifier:
             return HttpResponse("error")
@@ -234,31 +258,54 @@ def profile(request, username):
 @csrf_exempt
 def following(request):
     '''See all posts made by users that the current user follows'''
+    if request.method == "GET":
+        # Get id's of users the current user is following
+        query_result = Follower.objects.filter(user=request.user).values_list('followee', flat=True)
 
-    # Get id's of users the current user is following
-    query_result = Follower.objects.filter(user=request.user).values_list('followee', flat=True)
+        following = [] 
+        for query in query_result:
+            following.append(query)
 
-    following = [] 
-    for query in query_result:
-        following.append(query)
+        # print(following)    
+        posts_list = Post.objects.filter(user__in=following).order_by("-timestamp")
+        paginator = Paginator(posts_list, 10)
+        page = request.GET.get('page')
+        page_obj = paginator.get_page(page)
+        
+        try:
+            # Page is not the first or last
+            posts = paginator.page(page_obj)
+        except PageNotAnInteger:
+            # First page
+            posts = paginator.page(1)
+        except EmptyPage:
+            # Last Page
+            posts = paginator.page(paginator.num_pages)
 
-    # print(following)    
-    posts_list = Post.objects.filter(user__in=following).order_by("-timestamp")
-    paginator = Paginator(posts_list, 10)
-    page = request.GET.get('page')
-    page_obj = paginator.get_page(page)
-    
-    try:
-        # Page is not the first or last
-        posts = paginator.page(page_obj)
-    except PageNotAnInteger:
-        # First page
-        posts = paginator.page(1)
-    except EmptyPage:
-        # Last Page
-        posts = paginator.page(paginator.num_pages)
+        likes = Like.objects.values('post', 'user').annotate(Count('id')).order_by('post')
+        print(likes)
 
-    return render(request, "network/follow.html", {
-        "page": page_obj,
-        "posts": posts
-    })
+        return render(request, "network/follow.html", {
+            "page": page_obj,
+            "posts": posts,
+            "likes": likes
+        })
+    else:
+        try:
+            print("in put")
+            data = json.loads(request.body)
+            post_instance = Post.objects.get(pk=data['post_id'])
+            print(post_instance)
+            user_instance = User.objects.get(pk=data['user_id'])
+            print(user_instance)
+            like = Like.objects.filter(post=data['post_id'], user=data['user_id']).filter(user=True) 
+           
+            if not like:
+                print("in the conditional")
+                like = Like(post=post_instance, user=user_instance)
+                like.save()
+            print('outside the conditional')
+            return HttpResponse("success")
+        except expression as identifier:
+            return HttpResponse("error")
+        
