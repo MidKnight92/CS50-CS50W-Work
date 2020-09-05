@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.views.decorators.csrf import csrf_exempt
 import json
 from .models import User, Post, Follower, Like
+from sqlalchemy.sql import expression
 
 
 def index(request):
@@ -125,10 +126,22 @@ def posts(request):
             except EmptyPage:
                 # Last Page
                 posts = paginator.page(paginator.num_pages)
-
             
-            likes = Like.objects.values('post', 'user').annotate(Count('id')).order_by('post').filter(user=True)  
+            likes = []
+            
+            for p in posts:
+                # print("this is the id", p.id)
+                p_id = p.id
+                li = Like.objects.filter(post=p_id)
+                if not li:
+                    li = 0
+                else:
+                   li = li.count()
+                # print("this is li", li)
+                likes.append(li)
 
+            # print(likes)
+           
             return render(request, "network/posts.html", {
                 "page": page_obj,
                 "posts": posts,
@@ -145,25 +158,27 @@ def posts(request):
             return HttpResponse("error")
     else:
         try:
-            print("in put")
+            print("in put of the posts")
 
             data = json.loads(request.body)
+            print("this data\n",data)
+            post_instance = Post.objects.filter(pk=data['post_id'])
+            print("this is the post_instance\n",post_instance)
 
-            post_instance = Post.objects.get(pk=data['post_id'])
-            print(post_instance)
-
-            user_instance = User.objects.get(pk=data['user_id'])
-            print(user_instance)
+            user_instance = User.objects.filter(pk=data['user_id'])
+            print("this is the user_instance\n", user_instance)
 
             like = Like.objects.filter(post=data['post_id'], user=data['user_id'])
-
-            print(like)
-
+            
+            print("this is the like\n",like)
+            
             if not like:
                 print("new like")
-                like = Like(post=post_instance, user=user_instance)
+                like = Like(post=post_instance[0], user=user_instance[0])
                 like.save()
-            print('outside the conditional')
+            else:
+                print('delete')
+                like.delete()
             return HttpResponse("success")
         except expression as identifier:
             return HttpResponse("error")
@@ -300,11 +315,14 @@ def following(request):
             print(user_instance)
             like = Like.objects.filter(post=data['post_id'], user=data['user_id']).filter(user=True) 
            
-            if not like:
-                print("in the conditional")
-                like = Like(post=post_instance, user=user_instance)
-                like.save()
-            print('outside the conditional')
+            if data['action'] == 'like':
+                if not like:
+                    print("new like")
+                    like = Like(post=post_instance, user=user_instance)
+                    like.save()
+                print('outside the conditional')
+            else:
+                like.delete()
             return HttpResponse("success")
         except expression as identifier:
             return HttpResponse("error")

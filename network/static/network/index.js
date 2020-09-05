@@ -29,9 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 num = num + 1
                 span.innerText = String(num)
                 span.dataset.likes = num                
-                // like(thumbsup.dataset.post_id, thumbsup.dataset.post_user_id)
+                like(thumbsup.dataset.post_id, thumbsup.dataset.post_user_id)
             } else {
-                console.log("in the else")
                 thumbsup.dataset.action = "like"
                 const span = thumbsup.parentElement.childNodes[1].firstChild;
                 let num = parseInt(span.innerText)
@@ -43,7 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     span.innerText = String(num)
                     span.dataset.likes = num 
                 }
-                // unlike(thumbsup.dataset.post_id, thumbsup.dataset.post_user_id)
+                unlike(thumbsup.dataset.post_id, thumbsup.dataset.post_user_id)
             }
         })
     })
