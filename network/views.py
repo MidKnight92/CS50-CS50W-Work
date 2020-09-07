@@ -127,10 +127,22 @@ def posts(request):
                 # Last Page
                 posts = paginator.page(paginator.num_pages)
             
-            likes = []
             
+            # like = Like.objects.filter(user=request.user.id).order_by('-post').values('post')
+            # print("This is like",like)
+
+            liked_by_user = []
+
+            liked = False
             for p in posts:
-                # print("this is the id", p.id)
+                if Like.objects.filter(user=request.user.id, post=p.id):
+                    liked = True
+                liked_by_user.append(liked)
+
+
+            likes = []
+            for p in posts:
+                # print(p)
                 p_id = p.id
                 li = Like.objects.filter(post=p_id)
                 if not li:
@@ -140,12 +152,13 @@ def posts(request):
                 # print("this is li", li)
                 likes.append(li)
 
-            # print(likes)
+            print(liked_by_user)
            
             return render(request, "network/posts.html", {
                 "page": page_obj,
                 "posts": posts,
-                "likes": likes
+                "likes": likes,
+                "like": liked_by_user
             })
         except expression as identifier:
             return HttpResponse("error")
