@@ -126,15 +126,11 @@ def posts(request):
             except EmptyPage:
                 # Last Page
                 posts = paginator.page(paginator.num_pages)
-            
-            
-            # like = Like.objects.filter(user=request.user.id).order_by('-post').values('post')
-            # print("This is like",like)
 
             liked_by_user = []
-
-            liked = False
+                 
             for p in posts:
+                liked = False
                 if Like.objects.filter(user=request.user.id, post=p.id):
                     liked = True
                 liked_by_user.append(liked)
@@ -171,25 +167,27 @@ def posts(request):
             return HttpResponse("error")
     else:
         try:
-            print("in put of the posts")
+            # print("in put of the posts")
 
             data = json.loads(request.body)
-            print("this data\n",data)
+            # print("this data\n",data)
             post_instance = Post.objects.filter(pk=data['post_id'])
-            print("this is the post_instance\n",post_instance)
+            # print("this is the post_instance\n",post_instance)
 
             user_instance = User.objects.filter(pk=data['user_id'])
-            print("this is the user_instance\n", user_instance)
+            # print("this is the user_instance\n", user_instance)
 
             like = Like.objects.filter(post=data['post_id'], user=data['user_id'])
             
-            print("this is the like\n",like)
+            # print("this is the like\n",like)
             
-            if not like:
-                print("new like")
-                like = Like(post=post_instance[0], user=user_instance[0])
-                like.save()
-            else:
+            if data['action'] == 'like':
+                if not like:
+                    print("new like")
+                    like = Like(post=post_instance[0], user=user_instance[0])
+                    like.save()
+            
+            if data['action'] == 'unlike':
                 print('delete')
                 like.delete()
             return HttpResponse("success")

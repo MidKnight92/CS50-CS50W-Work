@@ -33,10 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 thumbsup.dataset.action = "like"
                 const span = thumbsup.parentElement.childNodes[1].firstChild;
+                console.log(span)
                 let num = parseInt(span.innerText)
-                num = num - 1
-                span.innerText = String(num)
-                span.dataset.likes = num
+                console.log(num)
                 if (num > 0){
                     num = num - 1
                     span.innerText = String(num)
