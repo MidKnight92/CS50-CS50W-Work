@@ -25,7 +25,6 @@
                         </svg>   
                 </div>
                 {% else %}
-                
                 <div class="d-flex w-100 justify-content-end">
                     <span class="badge badge-primary badge-pill" style="margin-right: 1%;"><span data-likes="{{likes|index:forloop.counter0}}">{{likes|index:forloop.counter0}}</span> Likes</span>
                     <svg data-action="like" data-post_id="{{post.id}}" data-post_user_id="{{request.user.id}}" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-hand-thumbs-up like" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

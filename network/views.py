@@ -140,14 +140,14 @@ def posts(request):
             for p in posts:
                 # print(p)
                 p_id = p.id
-                li = Like.objects.filter(post=p_id)
+                li = Like.objects.filter(post=p_id, user__isnull=False)
                 if not li:
                     li = 0
                 else:
                    li = li.count()
-                # print("this is li", li)
+                print("this is li", li)
                 likes.append(li)
-
+            print(likes)
             print(liked_by_user)
            
             return render(request, "network/posts.html", {
@@ -167,19 +167,19 @@ def posts(request):
             return HttpResponse("error")
     else:
         try:
-            # print("in put of the posts")
+            print("in put of the posts")
 
             data = json.loads(request.body)
-            # print("this data\n",data)
+            print("this data\n",data)
             post_instance = Post.objects.filter(pk=data['post_id'])
-            # print("this is the post_instance\n",post_instance)
+            print("this is the post_instance\n",post_instance)
 
             user_instance = User.objects.filter(pk=data['user_id'])
-            # print("this is the user_instance\n", user_instance)
+            print("this is the user_instance\n", user_instance)
 
             like = Like.objects.filter(post=data['post_id'], user=data['user_id'])
             
-            # print("this is the like\n",like)
+            print("this is the like\n",like)
             
             if data['action'] == 'like':
                 if not like:
@@ -308,31 +308,54 @@ def following(request):
             # Last Page
             posts = paginator.page(paginator.num_pages)
 
-        likes = Like.objects.values('post', 'user').annotate(Count('id')).order_by('post')
-        print(likes)
+        liked_by_user = []
+                 
+        for p in posts:
+            liked = False
+            if Like.objects.filter(user=request.user.id, post=p.id):
+                liked = True
+            liked_by_user.append(liked)
+
+
+        likes = []
+        for p in posts:
+            # print(p)
+            p_id = p.id
+            li = Like.objects.filter(post=p_id)
+            if not li:
+                li = 0
+            else:
+                li = li.count()
+            # print("this is li", li)
+            likes.append(li)
+
+            print(liked_by_user)
 
         return render(request, "network/follow.html", {
             "page": page_obj,
             "posts": posts,
-            "likes": likes
+            "likes": likes,
+            "like": liked_by_user
         })
     else:
         try:
-            print("in put")
+
             data = json.loads(request.body)
-            post_instance = Post.objects.get(pk=data['post_id'])
-            print(post_instance)
-            user_instance = User.objects.get(pk=data['user_id'])
-            print(user_instance)
-            like = Like.objects.filter(post=data['post_id'], user=data['user_id']).filter(user=True) 
-           
+
+            post_instance = Post.objects.filter(pk=data['post_id'])
+
+            user_instance = User.objects.filter(pk=data['user_id'])
+
+            like = Like.objects.filter(post=data['post_id'], user=data['user_id'])
+
             if data['action'] == 'like':
                 if not like:
                     print("new like")
-                    like = Like(post=post_instance, user=user_instance)
+                    like = Like(post=post_instance[0], user=user_instance[0])
                     like.save()
-                print('outside the conditional')
-            else:
+            
+            if data['action'] == 'unlike':
+                print('delete')
                 like.delete()
             return HttpResponse("success")
         except expression as identifier:
