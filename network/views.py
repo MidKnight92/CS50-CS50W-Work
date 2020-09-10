@@ -107,26 +107,29 @@ def register(request):
 
 @csrf_exempt
 def posts(request):
+    print(request)
     if request.method == "GET":
         try:
             # Query for most recent posts
-            posts = Post.objects.all().order_by('-timestamp')
+            posts_list = Post.objects.all().order_by('-timestamp')
 
-            paginator = Paginator(posts, 10)
+            paginator = Paginator(posts_list, 10)
+            
+            page_number = request.GET.get('page')
 
-            page = request.GET.get('page')
-            page_obj = paginator.get_page(page)
+            
+            posts = paginator.get_page(page_number)
 
-            try:
-                # Page is not the first or last
-                posts = paginator.page(page_obj)
-            except PageNotAnInteger:
-                # First page
-                posts = paginator.page(1)
-            except EmptyPage:
-                # Last Page
-                posts = paginator.page(paginator.num_pages)
-
+            # try:
+            #     # Page is not the first or last
+            #     posts = paginator.page(page_obj)
+            # except PageNotAnInteger:
+            #     # First page
+            #     posts = paginator.page(1)
+            # except EmptyPage:
+            #     # Last Page
+            #     posts = paginator.page(paginator.num_pages)
+           
             liked_by_user = []
                  
             for p in posts:
@@ -145,13 +148,11 @@ def posts(request):
                     li = 0
                 else:
                    li = li.count()
-                print("this is li", li)
+                # print("this is li", li)
                 likes.append(li)
-            print(likes)
-            print(liked_by_user)
-           
+            
+            print(posts)
             return render(request, "network/posts.html", {
-                "page": page_obj,
                 "posts": posts,
                 "likes": likes,
                 "like": liked_by_user
@@ -213,18 +214,10 @@ def profile(request, username):
         posts_list = Post.objects.order_by('-timestamp').filter(user=username_profile)
 
         paginator = Paginator(posts_list, 10)
-        page = request.GET.get('page')
-        page_obj = paginator.get_page(page)
+        page_number = request.GET.get('page')
+        posts = paginator.get_page(page_number)
         
-        try:
-            # Page is not the first or last
-            posts = paginator.page(page_obj)
-        except PageNotAnInteger:
-            # First page
-            posts = paginator.page(1)
-        except EmptyPage:
-            # Last Page
-            posts = paginator.page(paginator.num_pages)
+        
 
         # Get profile users follower count
         followers = Follower.objects.filter(followee=username_profile).count()
@@ -246,7 +239,6 @@ def profile(request, username):
 
 
         return render(request, "network/profile.html", {
-            "page": page_obj,
             "profile_name": username,
             "posts": posts,
             "followers": followers,
@@ -295,18 +287,10 @@ def following(request):
         # print(following)    
         posts_list = Post.objects.filter(user__in=following).order_by("-timestamp")
         paginator = Paginator(posts_list, 10)
-        page = request.GET.get('page')
-        page_obj = paginator.get_page(page)
+        page_number = request.GET.get('page')
+        posts = paginator.get_page(page_number)
         
-        try:
-            # Page is not the first or last
-            posts = paginator.page(page_obj)
-        except PageNotAnInteger:
-            # First page
-            posts = paginator.page(1)
-        except EmptyPage:
-            # Last Page
-            posts = paginator.page(paginator.num_pages)
+
 
         liked_by_user = []
                  
@@ -332,7 +316,6 @@ def following(request):
             print(liked_by_user)
 
         return render(request, "network/follow.html", {
-            "page": page_obj,
             "posts": posts,
             "likes": likes,
             "like": liked_by_user
